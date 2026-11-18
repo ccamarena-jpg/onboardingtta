@@ -41,6 +41,8 @@ function doPost(e) {
 function json(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 function norm(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").trim().toLowerCase(); }
 function pad(n) { return ("0" + n).slice(-2); }
+// Sheets convierte "01234567" en número 1234567: comparamos sin ceros a la izquierda.
+function dniKey(s) { return String(s || "").replace(/\D/g, "").replace(/^0+/, ""); }
 function fechaISO(v) {
   if (v instanceof Date) return Utilities.formatDate(v, Session.getScriptTimeZone(), "yyyy-MM-dd");
   const s = String(v).trim(); let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
@@ -75,9 +77,11 @@ function guardar(p) {
   // misma persona re-enviando (o Parte 2 actualizando seguimiento) => actualiza su fila
   const dniCol = headers.indexOf(cfg.dniCol); let target = -1;
   if (dniCol >= 0 && p.dni && sh.getLastRow() > 1) {
-    const vals = sh.getRange(2, dniCol + 1, sh.getLastRow() - 1, 1).getValues().flat().map(v => String(v).replace(/\s/g, ""));
-    const i = vals.lastIndexOf(String(p.dni)); if (i >= 0) target = i + 2;
+    const vals = sh.getRange(2, dniCol + 1, sh.getLastRow() - 1, 1).getValues().flat().map(dniKey);
+    const i = vals.lastIndexOf(dniKey(p.dni)); if (i >= 0) target = i + 2;
   }
+  // DNI como texto para conservar ceros a la izquierda
+  if (target < 0 && nuevo && dniCol >= 0) sh.getRange(sh.getLastRow() + 1, dniCol + 1).setNumberFormat("@");
   const out = headers.map(h => row[h] !== undefined ? row[h] : "");
   if (target > 0) {
     const old = sh.getRange(target, 1, 1, headers.length).getValues()[0];
@@ -97,7 +101,7 @@ function estado(p) {
     if (iDni < 0 || iNac < 0) continue;
     for (let r = data.length - 1; r >= 1; r--) {
       const row = data[r];
-      if (String(row[iDni]).replace(/\s/g, "") !== dni || fechaISO(row[iNac]) !== nac) continue;
+      if (dniKey(row[iDni]) !== dniKey(dni) || fechaISO(row[iNac]) !== nac) continue;
       const out = {found: true, hoja: hoja, perfil: String(row[H.indexOf("Perfil")] || ""), nombre: String(row[H.indexOf(cfg.nameCol)] || ""),
                    alta: norm(row[H.indexOf(COL_ALTA)]) === "si"};
       const link = String(row[H.indexOf(COL_CONTRATO)] || "");
