@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Onboarding TT Audit</title>
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--ink:#1c2333;--mut:#667085;--brand:#183870;--brand2:#e6ecf8;--gold:#f8b800;--ok:#127a4b;--warn:#b54708;--line:#e2e6ef;--r:14px}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+header{background:#fff;border-bottom:3px solid var(--gold);padding:8px 16px}
+header div{max-width:760px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header img{height:38px;cursor:pointer;display:block}header span{font-size:13px;color:var(--mut);text-align:right}
+body.cv header,body.cv #steps{display:none}body.cv main{max-width:none;padding:0}
+main{max-width:760px;margin:0 auto;padding:16px}
+.steps{display:flex;gap:6px;margin:4px 0 16px;flex-wrap:wrap}
+.steps i{flex:1;min-width:60px;font-style:normal;font-size:12px;text-align:center;padding:6px 4px;border-radius:99px;background:#e9edf6;color:var(--mut)}
+.steps i.on{background:var(--brand);color:#fff;font-weight:600}.steps i.done{background:#d6f0e3;color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:14px}
+h1{font-size:22px;margin:0 0 6px}h2{font-size:18px;margin:0 0 6px}h3{font-size:15px;margin:18px 0 8px;color:var(--brand)}
+p{margin:6px 0}.mut{color:var(--mut);font-size:14px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:1fr 1fr}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
+.opt{display:block;text-align:left;width:100%;padding:16px;border:2px solid var(--line);border-radius:var(--r);background:#fff;cursor:pointer;font:inherit;color:inherit}
+.opt:hover{border-color:var(--brand)}.opt.sel{border-color:var(--brand);background:var(--brand2)}
+.opt b{display:block;font-size:16px}.opt small{color:var(--mut)}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:4px}label em{color:#c0262d;font-style:normal}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid #cdd3e0;border-radius:10px;font:inherit;background:#fff}
+input:focus,select:focus{outline:2px solid var(--brand2);border-color:var(--brand)}
+input[type=checkbox],input[type=radio]{width:auto}
+.hint{font-size:12px;color:var(--mut);margin-top:3px}.err{font-size:12px;color:#c0262d;margin-top:3px}
+.btns{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+button.p,button.s,a.p{padding:11px 20px;border-radius:10px;border:0;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button.p,a.p{background:var(--brand);color:#fff}button.s{background:#e9edf6;color:var(--ink)}
+button:disabled,a.dis{opacity:.45;cursor:not-allowed;pointer-events:none}
+.rules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));margin:12px 0}
+.rule{background:var(--brand2);border-radius:12px;padding:14px}.rule .n{font-size:28px;font-weight:700;color:var(--brand);line-height:1.1}
+.rule.hl{background:#fff4d6}.rule.hl .n{color:#9a6b00}
+.calc{background:#f8f9fc;border:1px dashed #c7cee0;border-radius:12px;padding:14px;margin-top:12px}
+.slide{min-height:200px}.slide ol,.slide ul{padding-left:20px}
+.note{background:#fff4e5;border-left:4px solid var(--warn);padding:10px 12px;border-radius:8px;font-size:14px;margin:10px 0}
+.good{background:#e7f6ee;border-left:4px solid var(--ok);padding:10px 12px;border-radius:8px;font-size:14px;margin:10px 0}
+.q{margin:14px 0}.q label{font-weight:600}.q div.o{font-weight:400;margin:4px 0;font-size:14px}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:14px}.dots b{width:8px;height:8px;border-radius:50%;background:#d0d6e5}.dots b.on{background:var(--brand)}
+.tag{display:inline-block;background:var(--brand2);color:var(--brand);border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.gal{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0}
+.gal figure{margin:0;flex:1 1 130px;max-width:240px;text-align:center}
+.gal img{width:100%;border-radius:10px;border:1px solid var(--line);display:block}
+.gal figcaption{font-size:12px;color:var(--mut);margin-top:4px}
+.gal.sm figure{max-width:150px;flex-basis:100px}.gal.wide figure{max-width:340px;flex-basis:240px}
+
+/* ---------- Carátula animada ---------- */
+.cover{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;color:#fff;padding:24px;
+ background:linear-gradient(120deg,#0e2550,#183870,#24509a,#183870);background-size:300% 300%;animation:bg 14s ease infinite}
+@keyframes bg{0%,100%{background-position:0 50%}50%{background-position:100% 50%}}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.cc{position:relative;z-index:1;max-width:640px}
+.logo-card{display:inline-block;background:#fff;border-radius:22px;padding:14px 26px;box-shadow:0 14px 40px rgba(0,0,0,.35);opacity:0;animation:pop .9s .1s cubic-bezier(.2,1.3,.4,1) forwards,float 5s 1s ease-in-out infinite}
+.logo-card img{height:92px;display:block}
+@keyframes pop{from{opacity:0;transform:scale(.6) translateY(20px)}to{opacity:1;transform:none}}
+@keyframes float{50%{transform:translateY(-8px)}}
+.ttl{font-size:clamp(34px,7vw,58px);line-height:1.1;margin:28px 0 8px;font-weight:800}
+.ttl span{display:inline-block;opacity:0;transform:translateY(30px);animation:rise .7s forwards}
+.ttl span:nth-child(1){animation-delay:.7s}.ttl span:nth-child(2){animation-delay:.85s}.ttl span:nth-child(3){animation-delay:1s;color:var(--gold)}.ttl span:nth-child(4){animation-delay:1.15s;color:var(--gold)}
+@keyframes rise{to{opacity:1;transform:none}}
+.sub{letter-spacing:.35em;text-transform:uppercase;font-size:13px;color:var(--gold);opacity:0;animation:fade 1s 1.5s forwards;margin:0}
+.lead{max-width:480px;margin:18px auto 0;opacity:0;animation:fade 1s 1.8s forwards;color:#d6e0f5}
+.cbtn{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px;opacity:0;animation:fade 1s 2.1s forwards}
+@keyframes fade{to{opacity:1}}
+.cbtn button{padding:14px 24px;border-radius:12px;font:inherit;font-weight:700;cursor:pointer;border:2px solid var(--gold)}
+.cbtn .gold{background:var(--gold);color:#132a56;animation:pulse 2.4s 3s infinite}
+.cbtn .ghost{background:transparent;color:#fff}.cbtn .ghost:hover{background:rgba(255,255,255,.12)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(248,184,0,.6)}70%{box-shadow:0 0 0 16px rgba(248,184,0,0)}100%{box-shadow:0 0 0 0 rgba(248,184,0,0)}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
+</style>
+</head>
+<body class="cv">
+<header><div><img src="img/logo.png" alt="TT Audit" id="logo"><span id="who"></span></div></header>
+<main>
+  <div class="steps" id="steps"></div>
+  <div id="view"></div>
+</main>
+
+<script>
+/* ===================== CONFIGURACIÓN ===================== */
+const ENDPOINTS = {
+  practicante: "https://script.google.com/macros/s/AKfycbwRFxOUWgmVXFSkSemFSzRgtZ3zx9EtIUhi5eXvJcY_um2o92x0Z-x0PlIvbHUOgbFAyg/exec",
+  contratado:  "https://script.google.com/macros/s/AKfycbxRhwiO8yft8Q1twtn6u2VK7i26ui50MDWw7cH_U60uD9gCm6qigxQUt4Ur-kmMHkt8/exec",
+};
+const MAX_FILE_MB = 5;
+// Abrir index.html?demo para probar la Parte 2 sin consultar al servidor.
+const DEMO = /[?&]demo/.test(location.search);
+const ep = () => ENDPOINTS[PERFILES[S.perfil]?.hoja] || "";
+
+/* ===================== PERFILES Y HORARIOS ===================== */
+const PERFILES = {
+  bo:    {nombre:"Contratado Back Office", desc:"Personal administrativo / oficina", tipo:"contratado", horas:9, hoja:"contratado"},
+  campo: {nombre:"Contratado Campo",       desc:"Merchandiser, promotor, supervisor, conductor, almacén…", tipo:"contratado", horas:9, hoja:"contratado"},
+  pre:   {nombre:"Practicante Pre-profesional", desc:"Estudiante de ciclos intermedios", tipo:"practicante", horas:7, hoja:"practicante"},
+  pro:   {nombre:"Practicante Profesional",     desc:"Egresado / últimos ciclos", tipo:"practicante", horas:9, hoja:"practicante"},
+};
+const HORA_MAX_INGRESO = "10:00";
+
+/* ===================== CAMPOS (col = encabezado EXACTO de cada Excel) ===================== */
+const AFP = ["AFP - INTEGRA","AFP - PROFUTURO","AFP - PRIMA","AFP - HABITAT","ONP","No tengo"];
+const BANCOS = ["BCP","BBVA","Interbank","Scotiabank","Otro"];
+const comun = [
+  {col:"Nombre y Apellidos Completos", t:"text", req:1, full:1},
+  {col:"Fecha de Nacimiento", t:"date", req:1},
+  {col:"Correo electrónico personal", t:"email", req:1},
+  {col:"Número de Celular", t:"tel", req:1, pat:"^9\\d{8}$", hint:"9 dígitos, empieza con 9"},
+  {col:"Dirección de Domicilio", t:"text", req:1, full:1},
+  {col:"Distrito", t:"text", req:1},
+  {col:"Ciudad", t:"select", opts:["Lima","Callao","Arequipa","Cusco","Trujillo","Chiclayo","Piura","Otra"], req:1},
+  {col:"Número de contacto en caso de emergencia (Indicar relación)", t:"text", req:1, full:1, hint:"Ej: 987654321 - Madre"},
+];
+const FIELDS = {
+ contratado:[
+  {sec:"Datos personales"},
+  comun[0],
+  {col:"Nº DNI", t:"text", req:1, pat:"^\\d{8,12}$", hint:"DNI (8 dígitos) o CE"},
+  ...comun.slice(1,8),
+  {col:"Foto de DNI/CE (ambas caras)", t:"file", req:1, multi:1},
+  {col:"Recibo de luz", t:"file", req:1, hint:"Recibo reciente que acredite tu domicilio"},
+  {col:"Foto tamaño carnet (fondo blanco)", t:"file", req:1},
+  {sec:"Datos bancarios"},
+  {col:"Banco de cuenta sueldo", t:"select", opts:BANCOS, req:1},
+  {col:"Cuenta Bancaria de Abono", t:"text", req:1, pat:"^[\\d\\- ]{10,25}$", hint:"Solo números"},
+  {col:"CCI Cuenta Bancaria", t:"text", req:1, pat:"^[\\d\\- ]{20,24}$", hint:"20 dígitos"},
+  {sec:"Régimen pensionario"},
+  {col:"Régimen Pensionario", t:"select", opts:AFP, req:1},
+  {col:"Tipo de Comisión Régimen Pensionario", t:"select", opts:["Flujo","Mixta"], showIf:d=>/^AFP/.test(d["Régimen Pensionario"]||"")},
+  {col:"CUSSP", label:"CUSPP", t:"text", showIf:d=>/^AFP/.test(d["Régimen Pensionario"]||""), hint:"Si no lo recuerdas, déjalo en blanco; lo verificamos en la AFP"},
+  {sec:"Carga familiar"},
+  {col:"N° de hijo -18 años", label:"N° de hijos menores de 18 años", t:"number", req:1, min:0},
+  {col:"Foto DNI menor hijo", t:"file", multi:1, showIf:d=>+d["N° de hijo -18 años"]>0, req:1},
+  {col:"Foto DNI Conyugue", label:"Foto DNI cónyuge (si aplica)", t:"file", multi:1},
+  {col:"Partida de matrimonio", label:"Partida de matrimonio (si aplica)", t:"file"},
+ ],
+ practicante:[
+  {sec:"Datos personales"},
+  comun[0],
+  {col:"N° de DNI/CE", t:"text", req:1, pat:"^\\d{8,12}$"},
+  ...comun.slice(1,8),
+  {col:"Foto DNI/ CE (ambas caras)", t:"file", req:1, multi:1},
+  {col:"Foto tamaño carnet (fondo blanco)", t:"file", req:1},
+  {sec:"Datos académicos"},
+  {col:"¿En qué universidad estás estudiando?", t:"text", req:1, full:1},
+  {col:"¿Qué carrera estás estudiando?", t:"text", req:1},
+  {col:"¿Qué ciclo te encuentras cursando?", t:"select", opts:["1","2","3","4","5","6","7","8","9","10","Egresado"], req:1},
+  {col:"Por favor, adjuntar tu horario de clases", t:"file", req:1, hint:"Foto o PDF de tu horario del ciclo actual"},
+  {sec:"Cuenta de abono"},
+  {col:"¿Desearías que te aperturemos una cuenta sueldo?", t:"select", opts:["Si","No, ya tengo una cuenta."], req:1},
+  {col:"Por favor indicar la cuenta bancaria a la cuál te gustaría que abonemos. Indicar banco y CCI.", label:"Banco, número de cuenta y CCI", t:"text", full:1, req:1, showIf:d=>(d["¿Desearías que te aperturemos una cuenta sueldo?"]||"").startsWith("No")},
+  {col:"Confirmar nuevamente la cuenta de abono", label:"Captura de tu cuenta (app del banco)", t:"file", showIf:d=>(d["¿Desearías que te aperturemos una cuenta sueldo?"]||"").startsWith("No"), hint:"Para validar que el CCI es correcto"},
+ ]
+};
+
+/* ===================== CAPACITACIÓN BUK (textos e imágenes de On Boarding Buk.pptx) ===================== */
+const G=(arr,cls="")=>`<div class="gal ${cls}">${arr.map(([n,c])=>`<figure><img loading="lazy" src="img/buk/b${n}.jpg" alt="${c}"><figcaption>${c}</figcaption></figure>`).join("")}</div>`;
+const SLIDES = [
+ {t:"¿Por qué Buk?", h:`<p>Buk es la plataforma en línea de TT Audit donde centralizas tu información personal y laboral: <b>datos de contacto, historial laboral y boletas de pago</b>, todo en un solo lugar, cuando y donde lo necesites.</p><p>Disponible desde cualquier dispositivo con internet.</p>${G([[1,"Desde tu computadora"],[2,"Desde tu celular"]],"wide")}`},
+ {t:"¿Qué encontrarás en Buk?", h:`<ul><li><b>Información personal y laboral</b></li><li><b>Boletas de pago</b></li><li><b>Carpeta de documentos</b>: contratos, certificados y anexos</li><li><b>Previsión y salud</b>: AFP, CTS, EPS</li><li><b>Vacaciones</b></li><li>Cumpleaños, portal informativo, reconocimientos y beneficios</li></ul>${G([[46,"Portal del colaborador"]],"wide")}`},
+ {t:"1. Activa tu usuario", h:`<p>Cuando RRHH te dé el alta, recibirás una invitación en tu <b>correo personal</b>.</p><ol><li>Busca en tu correo: <b>“Activa tu usuario”</b></li><li>Haz clic en el enlace e ingresa</li><li>Crea tu contraseña. Ingresarás con tu correo y esa contraseña.</li></ol>${G([[10,"Correo de invitación"],[13,"Crea tu contraseña"]])}<div class="note">Si no te llega, revisa spam o escribe a RRHH.</div>`},
+ {t:"2. Formas de ingresar", h:`<h3>💻 Computadora</h3><p>Entra a <b>ttaudit.buk.pe</b></p>${G([[16,"ttaudit.buk.pe"]],"wide")}<h3>📱 App móvil</h3><p>Busca <b>“Buk”</b> en Play Store, App Store o AppGallery. En “selecciona país” elige <b>Perú</b> y en “URL de tu empresa” escribe <b>ttaudit</b>.</p>${G([[22,"Google Play"],[23,"App Store"],[17,"País y URL: ttaudit"]],"sm")}`},
+ {t:"Instala Buk como acceso directo", h:`<h3>🤖 Android (5 pasos)</h3><p>Entra a <b>ttaudit.buk.pe</b> → menú → <b>“Agregar a la pantalla principal”</b> → ponle nombre y <b>“Agregar”</b> → <b>“Añadir”</b> → ¡Listo!</p>${G([[25,"1. Menú"],[26,"2. Agregar"],[24,"3. Añadir"],[28,"4. ¡Listo!"]],"sm")}<h3>🍎 iPhone (4 pasos)</h3><p>Entra a <b>ttaudit.buk.pe</b> en Safari → <b>“Compartir”</b> → <b>“Añadir a pantalla de inicio”</b> → ponle nombre y <b>“Añadir”</b>.</p>${G([[31,"1. Abre Buk"],[32,"2. Compartir"],[30,"3. Añadir"],[29,"4. ¡Listo!"]],"sm")}`},
+ {t:"3. Tu ficha, boletas y documentos", h:`<ul><li><b>Ficha de colaborador:</b> revisa que tus datos estén correctos.</li><li><b>Boletas de pago:</b> sirven para acreditar tu relación laboral, evaluar créditos y revisar descuentos y bonificaciones. Las descargas desde “Boletas de pago”.</li><li><b>Documentos:</b> aquí está tu contrato, certificados y anexos.</li></ul>${G([[33,"Tu ficha de colaborador"],[35,"Boletas de pago"]],"wide")}`},
+ {t:"4. Vacaciones", h:`<p>Solicita tus vacaciones desde Buk. Se envía una notificación por correo a tu jefe directo y a Gestión Humana para su aprobación.</p>${G([[40,"Solicitar vacaciones"],[39,"Tus vacaciones"],[45,"Aprobación por correo"]])}`},
+ {t:"5. Reconocimientos y beneficios", h:`<p>En tu portal verás los últimos <b>reconocimientos</b> y podrás reconocer a un compañero.</p><p>También tienes un <b>pack de beneficios</b>: <b>Fitness</b> (yoga, baile, boxeo y más), <b>Salud</b> (Selia, Multident, Pulso Salud, Estar bien) y <b>Conocimiento</b> (cursos gratuitos y descuentos en Excel, idiomas y herramientas tecnológicas).</p>${G([[51,"Reconocimientos"],[56,"Beneficios"]],"wide")}`},
+ {t:"6. ⏱️ Asistencia: instala la app", h:`<div class="good"><b>Es obligatorio</b> registrar tu ingreso y salida en Buk <b>los días de home office</b> y <b>los días que empiezas directamente en campo</b>. Se hace con una app aparte: <b>“Buk Asistencia Colaborador”</b>.</div><ol><li>Entra a <b>Play Store</b>, busca <b>“Buk asistencia colaborador”</b> y toca <b>Instalar</b>.</li><li>Activa la <b>ubicación</b> del celular y elige <b>“Mientras la app está en uso”</b>.</li><li>Escribe tu <b>número de DNI</b> en “Ingresar ID/RUT” y toca <b>Siguiente</b>.</li><li>Permite que Buk tome fotos y grabe videos (para tu selfie).</li><li>Toca <b>Ingresar</b>. Te llegará a tu <b>correo personal</b> un código: escríbelo en <b>“Código verificador”</b>.</li></ol>${G([[70,"Play Store"],[72,"Permiso de ubicación"],[75,"Código verificador"]],"sm")}`},
+ {t:"7. ⏱️ Cómo marcar entrada y salida", h:`<div class="grid g2"><div><ol><li>Abre la app y toca <b>“Entrada”</b> al empezar tu jornada.</li><li>Se abre la cámara: tómate una <b>selfie donde se vea tu uniforme completo</b>.</li><li>Verás un mensaje confirmando tu registro. El comprobante llega a tu correo.</li></ol><p>Al terminar, repite con <b>“Salida”</b>.</p><div class="note">Para marcar necesitas la ubicación activada. Marca en el sentido correcto (entrada / salida).</div></div>${G([[78,"Botones Entrada y Salida"]],"sm")}</div>`},
+ {t:"8. Seguimiento de tu asistencia", h:`<p>RRHH revisa tu asistencia en Buk:</p><ul><li><b>Tarjeta de asistencia</b> personal: horas trabajadas y no trabajadas, permisos y ausencias por día.</li><li><b>Reporte de fotos</b> de entrada y salida, con la <b>ubicación</b> de cada marca.</li></ul><div class="note">Sin marcación el día se considera no registrado. Recuerda: ingreso máximo ${HORA_MAX_INGRESO}.</div>`},
+];
+const QUIZ = [
+ {q:"¿Dónde activas tu usuario de Buk?", o:["En el correo personal con el asunto “Activa tu usuario”","En WhatsApp","En el correo del jefe"], c:0},
+ {q:"¿Qué URL de empresa pones en la app?", o:["tt-audit","ttaudit","buk.pe"], c:1},
+ {q:"¿Cuándo debes marcar ingreso y salida en Buk?", o:["Nunca, solo en oficina","Home office y días que empiezas en campo","Solo los lunes"], c:1},
+ {q:"¿Qué necesitas para marcar entrada o salida?", o:["Selfie con uniforme completo y ubicación activada","Solo escribir la hora","Un correo al jefe"], c:0},
+];
+
+/* ===================== ESTADO Y NAVEGACIÓN ===================== */
+// mode: cover | p1 (datos) | p2 (capacitación + contrato)
+const S = {mode:"cover", step:0, perfil:null, data:{}, files:{}, slide:0, consent:false, horaOk:false, dni:null, nombre:"", contrato:null};
+const STEPS = {p1:["Perfil","Horario","Mis datos"], p2:["Verificación","Capacitación Buk","Contrato"]};
+const $ = s=>document.querySelector(s);
+const view = $("#view");
+const esc = s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function go(mode,step=0){S.mode=mode;S.step=step;render();window.scrollTo(0,0)}
+function nav(n){S.step=n;render();window.scrollTo(0,0)}
+$("#logo").onclick=()=>go("cover");
+
+function render(){
+  document.body.classList.toggle("cv",S.mode=="cover");
+  const st=STEPS[S.mode]||[];
+  $("#steps").innerHTML=st.map((s,i)=>`<i class="${i==S.step?'on':i<S.step?'done':''}">${i<S.step?'✓ ':''}${s}</i>`).join("");
+  $("#who").innerHTML=S.mode=="p1"?"Parte 1 de 2 · Tus datos":S.mode=="p2"?"Parte 2 de 2 · Capacitación y contrato":"";
+  if(S.mode=="cover")return vCover();
+  if(S.mode=="p1")return [vPerfil,vHorario,vDatos,vDone1][S.step]();
+  [vAcceso,vBuk,vContrato][S.step]();
+}
+
+/* ---------- Carátula animada ---------- */
+function vCover(){
+  view.innerHTML=`<section class="cover"><canvas id="net"></canvas><div class="cc">
+   <div class="logo-card"><img src="img/logo.png" alt="TT Audit"></div>
+   <h1 class="ttl"><span>¡Bienvenido</span> <span>a</span> <span>TT</span> <span>Audit!</span></h1>
+   <p class="sub">Trade Marketing Solutions</p>
+   <p class="lead">Tu ingreso es en 2 partes: primero completa tus datos; cuando tu usuario Buk y tu contrato estén listos, vuelve para tu capacitación y descarga tu contrato.</p>
+   <div class="cbtn"><button class="gold" id="new">Soy nuevo/a: completar mis datos</button><button class="ghost" id="cont">Ya me registré: continuar</button></div></div></section>`;
+  $("#new").onclick=()=>go("p1");$("#cont").onclick=()=>go("p2");
+  net();
+}
+function net(){
+  const c=$("#net");if(!c)return;const x=c.getContext("2d");let W,H,N;
+  const init=()=>{W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;
+    N=Array.from({length:Math.max(24,Math.min(70,Math.floor(W*H/16000)))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,r:1.5+Math.random()*2.5,g:Math.random()<.22}))};
+  init();addEventListener("resize",init);
+  const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  (function loop(){
+    if(!document.body.contains(c))return;
+    x.clearRect(0,0,W,H);
+    N.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1});
+    for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){const d=Math.hypot(N[i].x-N[j].x,N[i].y-N[j].y);
+      if(d<140){x.strokeStyle=`rgba(255,255,255,${.22*(1-d/140)})`;x.lineWidth=1;x.beginPath();x.moveTo(N[i].x,N[i].y);x.lineTo(N[j].x,N[j].y);x.stroke()}}
+    N.forEach(n=>{x.fillStyle=n.g?"#f8b800":"rgba(255,255,255,.85)";x.beginPath();x.arc(n.x,n.y,n.r,0,7);x.fill()});
+    if(!still)requestAnimationFrame(loop);
+  })();
+}
+
+/* ---------- P1 · 1. Perfil ---------- */
+function vPerfil(){
+  view.innerHTML=`<div class="card"><h1>Completa tus datos</h1><p class="mut">Elige tu perfil. Es la <b>Parte 1</b> de tu ingreso: con esta información RRHH preparará tu alta en Buk y tu contrato.</p>
+  <div class="grid g2" style="margin-top:14px">${Object.entries(PERFILES).map(([k,p])=>`<button class="opt ${S.perfil==k?'sel':''}" data-k="${k}"><b>${p.nombre}</b><small>${p.desc}</small></button>`).join("")}</div>
+  <div class="btns"><button class="s" id="back">Inicio</button><button class="p" id="next" ${S.perfil?'':'disabled'}>Continuar</button></div></div>`;
+  view.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{S.perfil=b.dataset.k;S.data={};S.files={};render()});
+  $("#back").onclick=()=>go("cover");$("#next").onclick=()=>nav(1);
+}
+
+/* ---------- P1 · 2. Horario ---------- */
+function vHorario(){
+  const p=PERFILES[S.perfil],campo=S.perfil=="campo";
+  view.innerHTML=`<div class="card"><h2>Tu horario de trabajo</h2><p class="mut">Perfil: <span class="tag">${p.nombre}</span></p>
+  <div class="rules">
+   <div class="rule hl"><div class="n">${HORA_MAX_INGRESO}</div><b>Hora máxima de ingreso</b><p class="mut">Puedes ingresar antes; después de esta hora se considera tardanza.</p></div>
+   <div class="rule"><div class="n">${p.horas} h</div><b>Jornada diaria (incluye refrigerio)</b><p class="mut">${p.tipo=="contratado"?"Debes cumplir las 9 horas de tu jornada.":S.perfil=="pre"?"Practicante pre-profesional: 7 horas.":"Practicante profesional: 9 horas."}</p></div>
+   <div class="rule"><div class="n">13:00–14:00</div><b>Refrigerio</b><p class="mut">Está incluido dentro de tus ${p.horas} horas.</p></div>
+  </div>
+  <div class="calc"><label for="hin">Calcula tu hora de salida</label>
+   <div class="grid g2"><input type="time" id="hin" max="${HORA_MAX_INGRESO}" value="09:00"><div id="hout" style="align-self:center;font-weight:600"></div></div></div>
+  <h3>Registro de asistencia</h3>
+  <ul><li>Registra tu <b>ingreso y salida en Buk</b> los días de <b>home office</b>.</li>${campo?"<li>Si <b>empiezas el día en campo</b> (ruta/punto de venta), marca tu ingreso en la app de asistencia de Buk apenas inicies.</li>":"<li>Los días presenciales en oficina se registran según el control de oficina.</li>"}</ul>
+  <p class="mut">En la Parte 2 verás cómo instalar y usar la app de asistencia.</p>
+  ${p.tipo=="practicante"?'<div class="note">Tu horario de clases se coordina con tu jefe: lo adjuntarás en el siguiente paso.</div>':''}
+  <label style="margin-top:14px;font-weight:400"><input type="checkbox" id="ok" ${S.horaOk?'checked':''}> He leído y entiendo mi horario de trabajo.</label>
+  <div class="btns"><button class="s" id="back">Atrás</button><button class="p" id="next" ${S.horaOk?'':'disabled'}>Continuar</button></div></div>`;
+  const calc=()=>{const v=$("#hin").value;if(!v){$("#hout").textContent="";return}
+    if(v>HORA_MAX_INGRESO){$("#hout").innerHTML='<span style="color:#c0262d">⚠ Pasa de las '+HORA_MAX_INGRESO+'</span>';return}
+    const [h,m]=v.split(":").map(Number),t=h*60+m+p.horas*60;
+    $("#hout").textContent=`Salida mínima: ${String(Math.floor(t/60)%24).padStart(2,"0")}:${String(t%60).padStart(2,"0")} (${p.horas} h con refrigerio)`};
+  $("#hin").oninput=calc;calc();
+  $("#ok").onchange=e=>{S.horaOk=e.target.checked;$("#next").disabled=!S.horaOk};
+  $("#back").onclick=()=>nav(0);$("#next").onclick=()=>nav(2);
+}
+
+/* ---------- P1 · 3. Datos ---------- */
+function vDatos(){
+  const f=FIELDS[PERFILES[S.perfil].hoja];
+  view.innerHTML=`<div class="card"><h2>Tus datos</h2><p class="mut">Completa con información real: se usará para tu contrato, planilla y seguros. Los campos con <em style="color:#c0262d">*</em> son obligatorios.</p><form id="f" novalidate class="grid g2"></form>
+  <label style="margin-top:14px;font-weight:400"><input type="checkbox" id="cons" ${S.consent?'checked':''}> Autorizo el tratamiento de mis datos personales por TT Audit S.A.C. para fines laborales y de planilla (Ley N° 29733).</label>
+  <div class="btns"><button class="s" id="back">Atrás</button><button class="p" id="send">Enviar mis datos</button></div><p class="err" id="msg"></p></div>`;
+  const form=$("#f");
+  const draw=()=>{
+    form.innerHTML=f.map((x,i)=>{
+      if(x.sec)return `<h3 style="grid-column:1/-1">${x.sec}</h3>`;
+      if(x.showIf&&!x.showIf(S.data))return "";
+      const id="f"+i,lab=`<label for="${id}">${esc(x.label||x.col)}${x.req?' <em>*</em>':''}</label>`;
+      const v=S.data[x.col]??"";let inp;
+      if(x.t=="select")inp=`<select id="${id}" data-c="${esc(x.col)}"><option value="">Selecciona…</option>${x.opts.map(o=>`<option ${o==v?'selected':''}>${esc(o)}</option>`).join("")}</select>`;
+      else if(x.t=="file")inp=`<input type="file" id="${id}" data-c="${esc(x.col)}" accept="image/*,.pdf" ${x.multi?'multiple':''}>${S.files[x.col]?`<div class="hint">✔ ${S.files[x.col].map(f=>esc(f.name)).join(", ")}</div>`:''}`;
+      else inp=`<input id="${id}" data-c="${esc(x.col)}" type="${x.t}" value="${esc(v)}" ${x.min!=null?`min="${x.min}"`:''}>`;
+      return `<div style="${x.full||x.t=='file'?'grid-column:1/-1':''}">${lab}${inp}${x.hint?`<div class="hint">${esc(x.hint)}</div>`:''}<div class="err" data-e="${esc(x.col)}"></div></div>`}).join("");
+    form.querySelectorAll("[data-c]").forEach(el=>{
+      const c=el.dataset.c;
+      if(el.type=="file")el.onchange=()=>{const fl=[...el.files],big=fl.find(x=>x.size>MAX_FILE_MB*1048576);
+        if(big){alert(`"${big.name}" pesa más de ${MAX_FILE_MB} MB`);el.value="";return}S.files[c]=fl;draw()};
+      else el.onchange=()=>{S.data[c]=el.value;if(f.some(x=>x.showIf))draw()};
+    });
+  };
+  draw();
+  $("#cons").onchange=e=>S.consent=e.target.checked;
+  $("#back").onclick=()=>nav(1);
+  $("#send").onclick=submit;
+  async function submit(){
+    let bad=0;
+    f.forEach(x=>{if(x.sec||(x.showIf&&!x.showIf(S.data)))return;
+      const el=form.querySelector(`[data-e="${CSS.escape(x.col)}"]`);let m="";
+      const v=(S.data[x.col]??"").toString().trim();
+      if(x.req&&x.t=="file"&&!(S.files[x.col]||[]).length)m="Adjunta el archivo";
+      else if(x.req&&x.t!="file"&&!v)m="Campo obligatorio";
+      else if(v&&x.pat&&!new RegExp(x.pat).test(v))m="Formato inválido";
+      else if(v&&x.t=="email"&&!/^\S+@\S+\.\S+$/.test(v))m="Correo inválido";
+      if(el)el.textContent=m;if(m)bad++});
+    if(bad){$("#msg").textContent=`Revisa ${bad} campo(s) marcado(s).`;form.querySelector(".err:not(:empty)")?.scrollIntoView({block:"center"});return}
+    if(!S.consent){$("#msg").textContent="Debes aceptar el tratamiento de datos.";return}
+    $("#msg").textContent="";const btn=$("#send");btn.disabled=true;btn.textContent="Enviando…";
+    try{await save();nav(3)}catch(e){$("#msg").textContent="No se pudo enviar: "+e.message;btn.disabled=false;btn.textContent="Enviar mis datos"}
+  }
+}
+const b64=f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result.split(",")[1]);x.readAsDataURL(f)});
+// Parte 1: envía todo el formulario. Parte 2 (soloExtra): solo actualiza columnas de seguimiento por DNI.
+async function save(extra={},soloExtra=false){
+  const p=PERFILES[S.perfil];
+  const dni=S.dni||S.data["Nº DNI"]||S.data["N° de DNI/CE"];
+  const payload={hoja:p.hoja,perfil:p.nombre,dni,files:{},
+    data:soloExtra?{...extra}:{...S.data,"Perfil":p.nombre,"Aceptó horario":"Sí",...extra}};
+  if(!soloExtra)for(const [c,fl] of Object.entries(S.files))payload.files[c]=await Promise.all(fl.map(async f=>({name:f.name,type:f.type,b64:await b64(f)})));
+  if(DEMO||!ep()){console.log("MODO DEMO – payload:",{...payload,files:Object.keys(payload.files)});await new Promise(r=>setTimeout(r,400));return}
+  await fetch(ep(),{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)});
+}
+
+/* ---------- P1 · 4. Listo ---------- */
+function vDone1(){
+  const mail=esc(S.data["Correo electrónico personal"]||"tu correo personal");
+  view.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:54px">✅</div><h1>¡Recibimos tus datos!</h1>
+  <p>Terminaste la <b>Parte 1</b>. Ahora RRHH revisará tu información.</p></div>
+  <div class="card"><h2>¿Qué sigue?</h2><ol>
+   <li>RRHH te da de <b>alta en Buk</b> y carga tu <b>contrato</b>.</li>
+   <li>Te avisaremos a <b>${mail}</b> cuando esté listo.</li>
+   <li>Vuelve a esta página, elige <b>“Ya me registré: continuar”</b> e ingresa tu DNI y fecha de nacimiento para hacer tu <b>capacitación de Buk</b> y <b>descargar tu contrato</b>.</li></ol>
+   <div class="note">Recuerda tu horario: ingreso máximo ${HORA_MAX_INGRESO} y jornada de ${PERFILES[S.perfil].horas} horas (incluye refrigerio).</div>
+   ${DEMO?'<div class="note">Modo demo: no se guardó nada.</div>':''}
+   <div class="btns"><span></span><button class="p" id="home">Ir al inicio</button></div></div>`;
+  $("#home").onclick=()=>go("cover");
+}
+
+/* ---------- P2 · 1. Verificación ---------- */
+async function consultar(dni,nac){
+  if(DEMO)return {found:true,alta:true,hoja:"contratado",perfil:PERFILES.bo.nombre,nombre:"Colaborador Demo",contratoB64:null};
+  const urls=[...new Set(Object.values(ENDPOINTS))];
+  const rs=await Promise.all(urls.map(u=>fetch(u,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"estado",dni,nac})}).then(r=>r.json()).catch(()=>null)));
+  if(rs.every(r=>!r))throw new Error("no hay conexión con el servidor");
+  return rs.find(r=>r&&r.found)||{found:false};
+}
+function vAcceso(msg=""){
+  view.innerHTML=`<div class="card"><h1>Continúa tu ingreso</h1><p class="mut">Ingresa los mismos datos con los que te registraste en la Parte 1.</p>
+  <div class="grid g2" style="margin-top:12px"><div><label for="dni">DNI / CE <em>*</em></label><input id="dni" inputmode="numeric" maxlength="12" value="${esc(S.dni||"")}"></div>
+  <div><label for="nac">Fecha de nacimiento <em>*</em></label><input id="nac" type="date"></div></div>
+  <div id="res">${msg}</div>
+  <div class="btns"><button class="s" id="back">Inicio</button><button class="p" id="ver">Verificar</button></div>
+  ${DEMO?'<p class="mut">Modo demo activo: cualquier dato funciona.</p>':''}</div>`;
+  $("#back").onclick=()=>go("cover");
+  $("#ver").onclick=async()=>{
+    const dni=$("#dni").value.trim(),nac=$("#nac").value;
+    if(!DEMO&&(!/^\d{8,12}$/.test(dni)||!nac)){$("#res").innerHTML='<p class="err">Ingresa tu DNI y tu fecha de nacimiento.</p>';return}
+    const b=$("#ver");b.disabled=true;b.textContent="Verificando…";
+    try{
+      const r=await consultar(dni,nac);
+      if(!r.found){$("#res").innerHTML='<div class="note">No encontramos tu registro. Revisa los datos o completa primero la <b>Parte 1</b> desde el inicio.</div>';b.disabled=false;b.textContent="Verificar";return}
+      S.dni=dni;S.nombre=r.nombre||"";
+      S.perfil=Object.keys(PERFILES).find(k=>PERFILES[k].nombre===r.perfil)||(r.hoja=="practicante"?"pre":"bo");
+      if(!r.alta){$("#res").innerHTML=`<div class="note"><b>Hola ${esc((r.nombre||"").split(" ")[0])}</b>: recibimos tus datos ✔. Todavía estamos preparando tu alta en Buk y tu contrato. Te avisaremos por correo y podrás continuar aquí.</div>`;b.disabled=false;b.textContent="Verificar";return}
+      S.contrato=r.contratoB64?{b64:r.contratoB64,name:r.contratoName||"contrato.pdf",type:r.contratoMime||"application/pdf"}:null;
+      S.slide=0;nav(1);
+    }catch(e){$("#res").innerHTML=`<p class="err">No pudimos consultar: ${esc(e.message)}. Intenta nuevamente.</p>`;b.disabled=false;b.textContent="Verificar"}
+  };
+}
+
+/* ---------- P2 · 2. Capacitación Buk ---------- */
+function vBuk(){
+  const n=SLIDES.length,last=S.slide==n-1;
+  if(S.slide>=n)return vQuiz();
+  const s=SLIDES[S.slide];
+  view.innerHTML=`${S.slide==0?`<div class="good" style="margin-top:0">¡Hola ${esc((S.nombre||"").split(" ")[0])}! Tu usuario Buk y tu contrato ya están listos 🎉 Primero, una capacitación corta.</div>`:''}<div class="card slide"><span class="tag">Capacitación Buk · ${S.slide+1}/${n}</span><h2 style="margin-top:8px">${s.t}</h2>${s.h}
+  <div class="dots">${SLIDES.map((_,i)=>`<b class="${i==S.slide?'on':''}"></b>`).join("")}</div>
+  <div class="btns"><button class="s" id="back">${S.slide?'Anterior':'Atrás'}</button><button class="p" id="next">${last?'Ir a la evaluación':'Siguiente'}</button></div></div>`;
+  $("#back").onclick=()=>S.slide?(S.slide--,render(),scrollTo(0,0)):nav(0);
+  $("#next").onclick=()=>{S.slide++;render();scrollTo(0,0)};
+}
+function vQuiz(){
+  view.innerHTML=`<div class="card"><span class="tag">Evaluación rápida</span><h2 style="margin-top:8px">¿Quedó claro?</h2><p class="mut">Responde las ${QUIZ.length} preguntas para continuar.</p>
+  ${QUIZ.map((q,i)=>`<div class="q"><label>${i+1}. ${q.q}</label>${q.o.map((o,j)=>`<div class="o"><label style="font-weight:400"><input type="radio" name="q${i}" value="${j}"> ${o}</label></div>`).join("")}</div>`).join("")}
+  <p class="err" id="msg"></p><div class="btns"><button class="s" id="back">Repasar</button><button class="p" id="chk">Verificar</button></div></div>`;
+  $("#back").onclick=()=>{S.slide=0;render()};
+  $("#chk").onclick=()=>{
+    const ok=QUIZ.every((q,i)=>document.querySelector(`input[name=q${i}]:checked`)?.value==q.c);
+    if(ok)nav(2);else $("#msg").textContent="Alguna respuesta no es correcta. Repasa la capacitación e inténtalo de nuevo."};
+}
+
+/* ---------- P2 · 3. Contrato ---------- */
+function vContrato(){
+  const prac=PERFILES[S.perfil].tipo=="practicante",c=S.contrato;
+  let url="";if(c){try{const bytes=Uint8Array.from(atob(c.b64),x=>x.charCodeAt(0));url=URL.createObjectURL(new Blob([bytes],{type:c.type}))}catch(e){}}
+  view.innerHTML=`<div class="card"><h1>¡Todo listo! 🎉</h1><p>Completaste tus datos y la capacitación de Buk.</p>
+  <h3>${prac?"Tu convenio de prácticas":"Tu contrato"}</h3>
+  <div class="good" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span><b>${prac?"Convenio de prácticas":"Contrato de trabajo"}</b><br><span class="mut">${url?"Disponible para descargar":"RRHH aún no cargó el archivo; vuelve en unas horas"}</span></span>
+  <a class="p ${url?'':'dis'}" href="${url}" download="${esc(c?.name||'contrato.pdf')}" id="dl">⬇ Descargar</a></div>
+  <label style="margin-top:12px;font-weight:400"><input type="checkbox" id="c" ${url?'':'disabled'}> Descargué y leí mi ${prac?"convenio":"contrato"}.</label>
+  <h3>Recuerda</h3><ul><li>Ingreso máximo <b>${HORA_MAX_INGRESO}</b> · jornada de <b>${PERFILES[S.perfil].horas} horas</b> (incluye refrigerio).</li><li>Activa tu usuario en <b>ttaudit.buk.pe</b> con la invitación de tu correo.</li><li>Marca ingreso y salida en <b>Buk Asistencia Colaborador</b> en home office y días que empiezas en campo.</li></ul>
+  <p class="mut">¿Dudas? Escribe a RRHH.</p><div class="btns"><button class="s" id="back">Atrás</button><button class="p" id="fin" disabled>Finalizar</button></div></div>`;
+  $("#c").onchange=e=>$("#fin").disabled=!e.target.checked;
+  $("#back").onclick=()=>nav(1);
+  $("#fin").onclick=async()=>{try{await save({"Capacitación Buk":"Completada","Contrato descargado":"Sí"},true)}catch(e){}
+    view.innerHTML='<div class="card" style="text-align:center"><div style="font-size:54px">🚀</div><h1>¡Bienvenido/a al equipo!</h1><p>Tu onboarding quedó completo. Ya puedes cerrar esta ventana.</p></div>'};
+}
+render();
+</script>
+</body>
+</html>
